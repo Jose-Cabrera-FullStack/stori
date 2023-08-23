@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  redis:
+    image: redis:latest
+    expose:
+      - 6379
+    volumes:
+      - redis:/data
+    networks:
+      - stori
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    env_file: .env
+    stdin_open: true
+    tty: true
+    depends_on:
+      - redis
+    volumes:
+      - .:/app
+    networks:
+      - stori
+    ports:
+      - "8020:8010"
+      - "5555:5555"
+networks:
+  stori:
+    driver: bridge
+volumes:
+  redis: {}
