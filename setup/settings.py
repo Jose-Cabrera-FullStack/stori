@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'django_celery_results',
     'django_celery_beat',
     "drf_standardized_errors",
-    'app_name'
+    'stori'
 ]
 
 ALLOWED_HOSTS = ['*']

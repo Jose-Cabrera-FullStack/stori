@@ -14,7 +14,7 @@ python manage.py runserver
 
 ### Add Django App (venv activated)
 ```
-python manage.py startapp app_name
+python manage.py startapp stori
 ```
 
 ## Docker instructions
@@ -77,7 +77,7 @@ django-base-ms
 ├─ .gitignore
 ├─ .vscode
 │  └─ launch.json
-├─ app_name
+├─ stori
 │  ├─ adapters.py
 │  ├─ admin.py
 │  ├─ apps.py
@@ -120,7 +120,7 @@ django-base-ms
 
 ## Architecture Overview
 
-- `app_name`: The core Django app containing the application-specific code.
+- `stori`: The core Django app containing the application-specific code.
   - `adapters.py`: Adapter classes or functions interfacing with external services, APIs or frameworks.
   - `admin.py`: Django admin configuration for the app's models.
   - `apps.py`: Configuration for the app itself.

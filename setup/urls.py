@@ -16,11 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from setup.views import greeting
-from app_name.urls import urlpatterns as app_name_urls
+from stori.urls import urlpatterns as stori_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', greeting, name='greeting'),
 ]
 
-urlpatterns += app_name_urls
+urlpatterns += stori_urls

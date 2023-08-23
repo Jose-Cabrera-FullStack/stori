@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 
-from app_name.serializer import RequestDataSerializer
+from stori.serializer import RequestDataSerializer
 
 
 # Option 1: Class based view
