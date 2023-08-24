@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Transaction Summary</title>
+</head>
+
+<body>
+    <h1>Transaction Summary</h1>
+
+    <p>Total balance: {{ total_balance }}</p>
+
+    <h2>Transactions by Month:</h2>
+    <ul>
+        {% for month, transaction_count in transactions_by_month.items %}
+        <li>Number of transactions in {{ month }}: {{ transaction_count }}</li>
+        {% endfor %}
+    </ul>
+    <!-- TODO: it needs to average_debit and average_credit by every months -->
+    <p>Average debit amount: {{ average_debit }}</p>
+    <p>Average credit amount: {{ average_credit }}</p>
+</body>
+
+</html>
