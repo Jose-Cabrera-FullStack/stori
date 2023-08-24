@@ -10,6 +10,8 @@ import csv
 # "2,8/2,-20.46"
 # "3,8/13,+10"
 
+# TODO: check if use pandas or numpy for this
+
 
 class StoriAdapter:
 
