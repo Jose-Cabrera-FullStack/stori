@@ -12,11 +12,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 import environ
+from os import getenv as env
 from pathlib import Path
-
-env = environ.Env(
-    DEBUG=(bool, False)
-)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,6 +25,16 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-qq(lp@!9q)m@#6^tip^9552-z(c8qys5b82!iwv0)is$d8t4z='
+
+# Send email settings
+EMAIL_BACKEND = str(
+    env("EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"))
+EMAIL_HOST = str(env("EMAIL_BACKEND", default="your-smtp-server.com"))
+EMAIL_PORT = str(env("EMAIL_BACKEND", default=587))
+EMAIL_USE_TLS = str(env("EMAIL_BACKEND", default=True))
+EMAIL_HOST_USER = str(env("EMAIL_BACKEND", default="your-email@example.com"))
+EMAIL_HOST_PASSWORD = str(env("EMAIL_BACKEND", default="your-email-password"))
+EMAIL_FROM = str(env("EMAIL_BACKEND", default="your-email@example.com"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
@@ -94,11 +101,11 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env.str('DB_NAME'),
-        'USER': env.str('DB_USER'),
-        'PASSWORD': env.str('DB_PASSWORD'),
-        'HOST': env.str('DB_HOST'),
-        'PORT': env.str('DB_PORT')
+        'NAME': str(env('DB_NAME')),
+        'USER': str(env('DB_USER')),
+        'PASSWORD': str(env('DB_PASSWORD')),
+        'HOST': str(env('DB_HOST')),
+        'PORT': str(env('DB_PORT'))
     },
 }
 
@@ -154,20 +161,20 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ---- Celery
-redis_internal_location = env.str('REDIS_INTERNAL_URL', default=None)
+redis_internal_location = str(env('REDIS_INTERNAL_URL', default=None))
 
-BROKER_URL = env.str("CELERY_BROKER_URL")
-CELERY_RESULT_BACKEND = env.str("CELERY_BROKER_URL")
+BROKER_URL = str(env("CELERY_BROKER_URL"))
+CELERY_RESULT_BACKEND = str(env("CELERY_BROKER_URL"))
 FORKED_BY_MULTIPROCESSING = 1
 
-S3_AWS_REGION = env.str("S3_AWS_REGION", default="")
-S3_ACCESS_KEY = env.str("S3_ACCESS_KEY", default="")
-S3_SECRET_KEY = env.str("S3_SECRET_KEY", default="")
-S3_BUCKET_NAME = env.str("S3_BUCKET_NAME", default="")
+S3_AWS_REGION = str(env("S3_AWS_REGION", default=""))
+S3_ACCESS_KEY = str(env("S3_ACCESS_KEY", default=""))
+S3_SECRET_KEY = str(env("S3_SECRET_KEY", default=""))
+S3_BUCKET_NAME = str(env("S3_BUCKET_NAME", default=""))
 
-CLOUDWATCH_AWS_REGION = env.str("CLOUDWATCH_AWS_REGION", default="")
-CLOUDWATCH_ACCESS_KEY = env.str("CLOUDWATCH_ACCESS_KEY", default="")
-CLOUDWATCH_SECRET_KEY = env.str("CLOUDWATCH_SECRET_KEY", default="")
-CLOUDWATCH_GROUP_NAME = {env.str("CLOUDWATCH_GROUP_NAME", default="")}
+CLOUDWATCH_AWS_REGION = str(env("CLOUDWATCH_AWS_REGION", default=""))
+CLOUDWATCH_ACCESS_KEY = str(env("CLOUDWATCH_ACCESS_KEY", default=""))
+CLOUDWATCH_SECRET_KEY = str(env("CLOUDWATCH_SECRET_KEY", default=""))
+CLOUDWATCH_GROUP_NAME = str(env("CLOUDWATCH_GROUP_NAME", default=""))
 
-MS_NAME = env.str("MS_NAME", default="")
+MS_NAME = str(env("MS_NAME", default=""))

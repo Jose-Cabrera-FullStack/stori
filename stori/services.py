@@ -1,5 +1,6 @@
 from django.shortcuts import render
-
+from django.core.mail import send_mail
+from django.conf import settings
 
 from stori.models import Transaction
 from stori.adapters import StoriAdapter
@@ -10,7 +11,7 @@ class StoriService:
 
     @staticmethod
     def send_summary_balance(request: dict) -> dict:
-        """ Example of Service: Get data from database """
+        """ Send summary balance to email and save data to database """
 
         transactions_list = StoriAdapter.extract_data_from_csv(
             file_path='stori/temp/stori_transaction_data.csv'
