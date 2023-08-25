@@ -22,13 +22,13 @@ class ApiRenderer(JSONRenderer):
 
         response = {
             "status": value_http_message,
-            "code": 1,
+            "code": status_code,
             "data": data
         }
 
         # Error formatting
         if not str(status_code).startswith('2'):
-            response["code"] = 0
+            response["code"] = status_code
             response["context"] = {}
             del response["data"]
             try:

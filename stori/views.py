@@ -12,5 +12,5 @@ from stori.serializer import RequestDataSerializer
 def summary_balance(request):
     # TODO: Need to check email in request. Maybe could be a Post method
     # serializer = RequestDataSerializer(data=request.data)
-    data = StoriService.send_summary_balance(request)
-    return Response(data={"http_message": "SUCCESS", "data": data}, status=status.HTTP_200_OK)
+    summary_balance = StoriService.send_summary_balance(request)
+    return Response(data={"http_message": "SUCCESS", "summary_balance": summary_balance}, status=status.HTTP_200_OK)

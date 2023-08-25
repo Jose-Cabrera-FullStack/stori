@@ -43,20 +43,25 @@ class StoriService:
             date_transaction
         )
 
-        context = {
+        summary_balance = {
             'total_balance': total_balance,
-            'average_credit': average_credit,
-            'average_debit': average_debit,
+            'average_credit_by_month': average_credit,
+            'average_debit_by_month': average_debit,
             'transactions_by_month': transactions_by_month,
         }
 
         # TODO: Send data to email
-        render(request, 'transactions/summary.html', context)
+        # StoriService._send_email()
 
         # TODO: Send data to database
-        StoriService._save_transactions(transactions_list)
+        # StoriService._save_transactions(transactions_list)
 
-        return context
+        return summary_balance
+
+    @staticmethod
+    def _send_email(transactions_list: list) -> None:
+        # render(request, 'transactions/summary.html', context)
+        pass
 
     @staticmethod
     def _save_transactions(transactions_list: list) -> None:
