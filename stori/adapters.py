@@ -1,6 +1,6 @@
 # Connect the service with external services from infrastructure. (S3, Other APIs, etc.)
 import csv
-
+import pandas
 # Extract data from csv file
 # Path: stori/temp/stori_transaction_data.csv
 # Format:
@@ -20,5 +20,6 @@ class StoriAdapter:
         """ Extract data from csv file. """
 
         with open(file_path, 'r') as csv_file:
-            reader = csv.DictReader(csv_file)
-            return [row for row in reader]
+            df = pandas.read_csv(csv_file,sep=',')
+
+            return df

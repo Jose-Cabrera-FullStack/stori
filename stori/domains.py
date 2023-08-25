@@ -3,7 +3,7 @@ class StoriDomain:
     @staticmethod
     def total_balance(transactions: list) -> float:
         """ Calculate the total balance. """
-        return sum([transaction['amount'] for transaction in transactions])
+        return sum(transactions)
 
     @staticmethod
     def transaction_number_by_month(transactions: list) -> dict:

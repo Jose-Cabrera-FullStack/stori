@@ -13,11 +13,12 @@ class StoriService:
     def send_summary_balance(request: dict) -> dict:
         """ Send summary balance to email and save data to database """
 
-        transactions_list = StoriAdapter.extract_data_from_csv(
-            file_path='stori/temp/stori_transaction_data.csv'
+        df_transactions = StoriAdapter.extract_data_from_csv(
+            file_path='./temp/stori_transaction_data.csv'
         )
 
-        total_balance = StoriDomain.total_balance(transactions_list)
+        total_balance = StoriDomain.total_balance(
+            df_transactions['Transaction']).to_list()
 
         average_credit = StoriDomain.average_credit_by_month(
             transactions_list
@@ -44,7 +45,7 @@ class StoriService:
         # TODO: Send data to database
         StoriService._save_transactions(transactions_list)
 
-        return
+        return context
 
     @staticmethod
     def _save_transactions(transactions_list: list) -> None:
