@@ -1,3 +1,6 @@
+import datetime
+
+
 class StoriDomain:
 
     @staticmethod
@@ -6,21 +9,39 @@ class StoriDomain:
         return sum(transactions)
 
     @staticmethod
-    def transaction_number_by_month(transactions: list) -> dict:
-        """ Calculate the number of transactions by month. """
-        months = [transaction['Date'].month for transaction in transactions]
-        return {month: months.count(month) for month in months}
+    def average_by_month(transactions: dict) -> dict:
+        """ Group average credit transactions by month and year. """
+
+        # TODO: validate if the date is valid or format to valid date
+        # transactions
+
+        repeated_date = {}
+        average_credit_by_month = {}
+
+        for key, value in transactions.items():
+            if key in average_credit_by_month:
+                average_credit_by_month[key] += value
+                repeated_date[key] += 1
+            else:
+                average_credit_by_month[key] = value
+                repeated_date[key] = 1
+
+        for key, value in average_credit_by_month.items():
+            if repeated_date[key] > 1:
+                average_credit_by_month[key] = value / repeated_date[key]
+
+        return average_credit_by_month
 
     @staticmethod
-    def average_credit_by_month(transactions: list) -> float:
-        """ Calculate the average of credit by month. """
-        credits = [transaction['amount']
-                   for transaction in transactions if transaction['amount'] > 0]
-        return sum(credits) / len(credits)
+    def transactions_by_month(transactions: dict) -> dict:
+        """ Group transactions by month and year. """
 
-    @staticmethod
-    def average_debit_by_month(transactions: list) -> float:
-        """ Calculate the average of debit by month. """
-        debits = [transaction['amount']
-                  for transaction in transactions if transaction['amount'] < 0]
-        return sum(debits) / len(debits)
+        transactions_by_month = {}
+
+        for key, _ in transactions.items():
+            if key in transactions_by_month:
+                transactions_by_month[key] += 1
+            else:
+                transactions_by_month[key] = 1
+
+        return transactions_by_month

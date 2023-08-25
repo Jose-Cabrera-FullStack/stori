@@ -18,18 +18,29 @@ class StoriService:
         )
 
         total_balance = StoriDomain.total_balance(
-            df_transactions['Transaction']).to_list()
+            df_transactions['Transaction'].to_list())
 
-        average_credit = StoriDomain.average_credit_by_month(
-            transactions_list
+        date_transaction = df_transactions.set_index(
+            'Date')['Transaction'].to_dict()
+
+        # TODO: filter by date_transaction positive transactions (credit)
+        credit_date_transaction = df_transactions.set_index(
+            'Date')['Transaction'].to_dict()
+
+        # TODO: filter by date_transaction negative transactions (debit)
+        debit_date_transaction = df_transactions.set_index(
+            'Date')['Transaction'].to_dict()
+
+        average_credit = StoriDomain.average_by_month(
+            credit_date_transaction
         )
 
-        average_debit = StoriDomain.average_debit_by_month(
-            transactions_list
+        average_debit = StoriDomain.average_by_month(
+            debit_date_transaction
         )
 
-        transactions_by_month = StoriDomain.transaction_number_by_month(
-            transactions_list
+        transactions_by_month = StoriDomain.transactions_by_month(
+            date_transaction
         )
 
         context = {
