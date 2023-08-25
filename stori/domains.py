@@ -12,23 +12,32 @@ class StoriDomain:
     def average_by_month(transactions: dict) -> dict:
         """ Group average credit transactions by month and year. """
 
-        # TODO: validate if the date is valid or format to valid date
-        # transactions
+        try:
+            transactions = {
+                datetime.datetime.strptime(key, '%m/%d').strftime('%m/%d'): value
+                for key, value in transactions.items()
+            }
+        except ValueError:
+            Exception('Invalid date format. Please use mm/dd format.')
+        except Exception as e:
+            raise e
 
         repeated_date = {}
         average_credit_by_month = {}
 
-        for key, value in transactions.items():
-            if key in average_credit_by_month:
-                average_credit_by_month[key] += value
-                repeated_date[key] += 1
+        for date, value in transactions.items():
+            format_date = StoriDomain._format_date(date)
+            if format_date in average_credit_by_month:
+                average_credit_by_month[format_date] += value
+                repeated_date[format_date] += 1
             else:
-                average_credit_by_month[key] = value
-                repeated_date[key] = 1
+                average_credit_by_month[format_date] = value
+                repeated_date[format_date] = 1
 
-        for key, value in average_credit_by_month.items():
-            if repeated_date[key] > 1:
-                average_credit_by_month[key] = value / repeated_date[key]
+        for date, value in average_credit_by_month.items():
+            if repeated_date[date] > 1:
+                average_credit_by_month[date] = value / \
+                    repeated_date[date]
 
         return average_credit_by_month
 
@@ -39,9 +48,14 @@ class StoriDomain:
         transactions_by_month = {}
 
         for key, _ in transactions.items():
-            if key in transactions_by_month:
-                transactions_by_month[key] += 1
+            format_date = StoriDomain._format_date(key)
+            if format_date in transactions_by_month:
+                transactions_by_month[format_date] += 1
             else:
-                transactions_by_month[key] = 1
+                transactions_by_month[format_date] = 1
 
         return transactions_by_month
+
+    @staticmethod
+    def _format_date(date: str, from_format_date: str = "%m/%d", to_format_date: str = "%m") -> dict:
+        return datetime.datetime.strptime(date, from_format_date).strftime(to_format_date)
