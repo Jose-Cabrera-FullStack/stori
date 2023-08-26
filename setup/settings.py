@@ -32,9 +32,9 @@ EMAIL_BACKEND = str(
 EMAIL_HOST = str(env("EMAIL_BACKEND", default="your-smtp-server.com"))
 EMAIL_PORT = str(env("EMAIL_BACKEND", default=587))
 EMAIL_USE_TLS = str(env("EMAIL_BACKEND", default=True))
-EMAIL_HOST_USER = str(env("EMAIL_BACKEND", default="your-email@example.com"))
-EMAIL_HOST_PASSWORD = str(env("EMAIL_BACKEND", default="your-email-password"))
-EMAIL_FROM = str(env("EMAIL_BACKEND", default="your-email@example.com"))
+# EMAIL_HOST_USER = str(env("EMAIL_BACKEND", default="your-email@example.com"))
+# EMAIL_HOST_PASSWORD = str(env("EMAIL_BACKEND", default="your-email-password"))
+# EMAIL_FROM = str(env("EMAIL_BACKEND", default="your-email@example.com"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
@@ -79,7 +79,9 @@ ROOT_URLCONF = 'setup.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            './stori/templates/transactions/'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
