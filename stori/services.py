@@ -10,12 +10,10 @@ from stori.domains import StoriDomain
 class StoriService:
 
     @staticmethod
-    def send_summary_balance(request: dict) -> dict:
+    def send_summary_balance() -> dict:
         """ Send summary balance to email and save data to database """
 
-        df_transactions = StoriAdapter.extract_data_from_csv(
-            file_path='./temp/stori_transaction_data.csv'
-        )
+        df_transactions = StoriAdapter.extract_data_from_csv()
 
         total_balance = StoriDomain.total_balance(
             df_transactions['Transaction'].to_list())

@@ -10,7 +10,9 @@ class StoriDomain:
 
     @staticmethod
     def average_by_month(transactions: dict) -> dict:
-        """ Group average credit transactions by month and year. """
+        """
+        transactions: dict with key as date and value as credit/debit transaction.
+        """
 
         try:
             transactions = {
@@ -18,9 +20,10 @@ class StoriDomain:
                 for key, value in transactions.items()
             }
         except ValueError:
-            Exception('Invalid date format. Please use mm/dd format.')
-        except Exception as e:
-            raise e
+            raise ValueError(
+                'Invalid date format. transaction date must be in format: %m/%d')
+        except Exception as error:
+            raise Exception(error)
 
         repeated_date = {}
         average_credit_by_month = {}
@@ -36,8 +39,7 @@ class StoriDomain:
 
         for date, value in average_credit_by_month.items():
             if repeated_date[date] > 1:
-                average_credit_by_month[date] = value / \
-                    repeated_date[date]
+                average_credit_by_month[date] = value / repeated_date[date]
 
         return average_credit_by_month
 
