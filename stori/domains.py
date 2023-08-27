@@ -12,7 +12,11 @@ class StoriDomain:
     @staticmethod
     def average_by_month(transactions: dict) -> dict:
         """
+        Calculate the average amount by month.
+        :param
         transactions: dict with key as date and value as credit/debit transaction.
+        :return
+        average_amount_by_month: dict with key as month and value as average amount.
         """
 
         try:
@@ -41,7 +45,8 @@ class StoriDomain:
 
         for date, value in average_amount_by_month.items():
             if repeated_date[date] > 1:
-                average_amount_by_month[date] = round(value / repeated_date[date], decimals)
+                average_amount_by_month[date] = round(
+                    value / repeated_date[date], decimals)
 
         return average_amount_by_month
 

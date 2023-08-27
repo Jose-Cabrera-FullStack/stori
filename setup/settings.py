@@ -163,6 +163,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL_HOST_PASSWORD = str(env("EMAIL_BACKEND", default=""))
 # EMAIL_FROM = str(env("EMAIL_BACKEND", default=""))
 
+# TODO: It has to be a env variable
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587

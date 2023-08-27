@@ -29,6 +29,7 @@ class StoriService:
 
     @staticmethod
     def _build_summary_balance(df_transactions: pd.DataFrame) -> dict:
+        """ Build summary balance, total balance and average by month """
         total_balance = StoriDomain.total_balance(
             df_transactions['Transaction'].to_list())
 
