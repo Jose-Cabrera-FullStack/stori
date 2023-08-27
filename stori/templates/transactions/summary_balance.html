@@ -6,6 +6,26 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            max-width: 150px;
         }
 
         h1 {
@@ -32,27 +52,33 @@
 </head>
 
 <body>
-    <h1>Transaction Summary</h1>
+    <div class="container">
+        <div class="header">
+            <img class="logo" src="https://www.storicard.com/_next/static/media/complete-logo.0f6b7ce5.svg"
+                alt="Stori Logo">
+        </div>
 
-    <p>Total balance: {{ total_balance }}</p>
+        <h1>Transaction Summary</h1>
+        <p>Total balance: <strong>{{ total_balance }}</strong></p>
 
-    <h2>Transactions by Month:</h2>
-    <table>
-        <tr>
-            <th>Month</th>
-            <th>Number of Transactions</th>
-            <th>Average Credit</th>
-            <th>Average Debit</th>
-        </tr>
-        {% for month, transaction_count, average_credit, average_debit in month_data %}
-        <tr>
-            <td>{{ month }}</td>
-            <td>{{ transaction_count }}</td>
-            <td>{{ average_credit }}</td>
-            <td>{{ average_debit }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+        <h2>Transactions by Month:</h2>
+        <table>
+            <tr>
+                <th>Month</th>
+                <th>Number of Transactions</th>
+                <th>Average Credit</th>
+                <th>Average Debit</th>
+            </tr>
+            {% for month, transaction_count, average_credit, average_debit in month_data %}
+            <tr>
+                <td>{{ month }}</td>
+                <td>{{ transaction_count }}</td>
+                <td>{{ average_credit }}</td>
+                <td>{{ average_debit }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </body>
 
 </html>

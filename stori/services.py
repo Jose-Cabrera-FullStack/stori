@@ -1,9 +1,11 @@
+import datetime
+import pandas as pd
+
 from django.utils.html import strip_tags
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
-from django.core.mail import send_mail
-from setup import settings
 
+from setup import settings
 from stori.models import Transaction
 from stori.adapters import StoriAdapter
 from stori.domains import StoriDomain
@@ -17,6 +19,16 @@ class StoriService:
 
         df_transactions = StoriAdapter.extract_data_from_csv()
 
+        summary_balance = StoriService._build_summary_balance(df_transactions)
+
+        StoriService._send_email(summary_balance)
+
+        StoriService._save_transactions(df_transactions.values.tolist())
+
+        return summary_balance
+
+    @staticmethod
+    def _build_summary_balance(df_transactions: pd.DataFrame) -> dict:
         total_balance = StoriDomain.total_balance(
             df_transactions['Transaction'].to_list())
 
@@ -42,8 +54,8 @@ class StoriService:
         transactions_by_month = StoriDomain.transactions_by_month(
             date_transaction
         )
-        
-        month_data=[]
+
+        month_data = []
         for month, transaction_count in transactions_by_month.items():
             month_data.append((
                 month,
@@ -51,17 +63,11 @@ class StoriService:
                 average_credit[month],
                 average_debit[month]
             ))
-            
+
         summary_balance = {
             'total_balance': total_balance,
             'month_data': month_data,
         }
-
-        # TODO: Send data to email
-        StoriService._send_email(summary_balance)
-
-        # TODO: Send data to database
-        # StoriService._save_transactions(transactions_list)
 
         return summary_balance
 
@@ -88,16 +94,20 @@ class StoriService:
         email.send()
 
     @staticmethod
-    def _save_transactions(transactions_list: list) -> None:
+    def _save_transactions(transactions: list) -> None:
         """ Save data to database """
 
         bulk_transactions = []
 
-        for transaction in transactions_list:
+        for transaction in transactions:
+            date = transaction[1]
+            date = datetime.datetime.strptime(date, "%m/%d")
+            amount = transaction[2]
+            transaction_type = "credit" if amount > 0 else "debit"
             transaction = Transaction(
-                date=transaction['date'],
-                amount=transaction['amount'],
-                description=transaction['description'],
+                date=date,
+                amount= float(amount),
+                transaction_type=transaction_type
             )
             bulk_transactions.append(transaction)
 
