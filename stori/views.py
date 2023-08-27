@@ -8,9 +8,14 @@ from stori.serializer import RequestDataSerializer
 
 
 @csrf_exempt
-@api_view(['GET'])
+@api_view(['POST'])
 def summary_balance(request):
-    # TODO: Need to check email in request. Maybe could be a Post method
-    # serializer = RequestDataSerializer(data=request.data)
-    summary_balance = StoriService.send_summary_balance()
+    serializer = RequestDataSerializer(data=request.data)
+    if serializer.is_valid():
+        summary_balance = StoriService.send_summary_balance(
+            serializer.validated_data['email_recipient']
+        )
+    else:
+        return Response(data={"http_message": "ERROR", "summary_balance": "Error al pasar datos"}, status=status.HTTP_400_BAD_REQUEST)
+
     return Response(data={"http_message": "SUCCESS", "summary_balance": summary_balance}, status=status.HTTP_200_OK)

@@ -14,14 +14,14 @@ from stori.domains import StoriDomain
 class StoriService:
 
     @staticmethod
-    def send_summary_balance() -> dict:
+    def send_summary_balance(email_recipient: str) -> dict:
         """ Send summary balance to email and save data to database """
 
         df_transactions = StoriAdapter.extract_data_from_csv()
 
         summary_balance = StoriService._build_summary_balance(df_transactions)
 
-        StoriService._send_email(summary_balance)
+        StoriService._send_email(summary_balance, email_recipient)
 
         StoriService._save_transactions(df_transactions.values.tolist())
 
@@ -35,12 +35,12 @@ class StoriService:
         date_transaction = df_transactions.set_index(
             'Date')['Transaction'].to_dict()
 
-        # TODO: filter by date_transaction positive transactions (credit)
-        credit_date_transaction = df_transactions.set_index(
+        credit_transactions = df_transactions[df_transactions['Transaction'] >= 0]
+        credit_date_transaction = credit_transactions.set_index(
             'Date')['Transaction'].to_dict()
 
-        # TODO: filter by date_transaction negative transactions (debit)
-        debit_date_transaction = df_transactions.set_index(
+        debit_transactions = df_transactions[df_transactions['Transaction'] < 0]
+        debit_date_transaction = debit_transactions.set_index(
             'Date')['Transaction'].to_dict()
 
         average_credit = StoriDomain.average_by_month(
@@ -72,8 +72,8 @@ class StoriService:
         return summary_balance
 
     @staticmethod
-    def _send_email(summary_balance: dict) -> None:
-        """ Send data to email """
+    def _send_email(summary_balance: dict, email_recipient: str) -> None:
+        """ Send email with summary balance """
 
         html_content = render_to_string(
             "summary_balance.html",
@@ -88,14 +88,14 @@ class StoriService:
             subject='Stori - Summary Balance',
             body=text_context,
             from_email=settings.EMAIL_HOST_USER,
-            to=[settings.EMAIL_FROM],
+            to=[email_recipient],
         )
         email.attach_alternative(html_content, "text/html")
         email.send()
 
     @staticmethod
     def _save_transactions(transactions: list) -> None:
-        """ Save data to database """
+        """ Save transactions to database """
 
         bulk_transactions = []
 
@@ -106,7 +106,7 @@ class StoriService:
             transaction_type = "credit" if amount > 0 else "debit"
             transaction = Transaction(
                 date=date,
-                amount= float(amount),
+                amount=float(amount),
                 transaction_type=transaction_type
             )
             bulk_transactions.append(transaction)

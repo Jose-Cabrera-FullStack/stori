@@ -4,9 +4,10 @@ import datetime
 class StoriDomain:
 
     @staticmethod
-    def total_balance(transactions: list) -> float:
+    def total_balance(transactions: list, decimals: int = 2) -> float:
         """ Calculate the total balance. """
-        return sum(transactions)
+        result = sum(transactions)
+        return round(result, decimals)
 
     @staticmethod
     def average_by_month(transactions: dict) -> dict:
@@ -26,22 +27,23 @@ class StoriDomain:
             raise Exception(error)
 
         repeated_date = {}
-        average_credit_by_month = {}
+        average_amount_by_month = {}
+        decimals = 2
 
         for date, value in transactions.items():
             format_date = StoriDomain._format_date(date)
-            if format_date in average_credit_by_month:
-                average_credit_by_month[format_date] += value
+            if format_date in average_amount_by_month:
+                average_amount_by_month[format_date] += value
                 repeated_date[format_date] += 1
             else:
-                average_credit_by_month[format_date] = value
+                average_amount_by_month[format_date] = value
                 repeated_date[format_date] = 1
 
-        for date, value in average_credit_by_month.items():
+        for date, value in average_amount_by_month.items():
             if repeated_date[date] > 1:
-                average_credit_by_month[date] = value / repeated_date[date]
+                average_amount_by_month[date] = round(value / repeated_date[date], decimals)
 
-        return average_credit_by_month
+        return average_amount_by_month
 
     @staticmethod
     def transactions_by_month(transactions: dict) -> dict:
