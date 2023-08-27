@@ -2,7 +2,7 @@ from django.utils.html import strip_tags
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail import send_mail
-from django.conf import settings
+from setup import settings
 
 from stori.models import Transaction
 from stori.adapters import StoriAdapter
@@ -42,12 +42,19 @@ class StoriService:
         transactions_by_month = StoriDomain.transactions_by_month(
             date_transaction
         )
-
+        
+        month_data=[]
+        for month, transaction_count in transactions_by_month.items():
+            month_data.append((
+                month,
+                transaction_count,
+                average_credit[month],
+                average_debit[month]
+            ))
+            
         summary_balance = {
             'total_balance': total_balance,
-            'average_credit_by_month': average_credit,
-            'average_debit_by_month': average_debit,
-            'transactions_by_month': transactions_by_month,
+            'month_data': month_data,
         }
 
         # TODO: Send data to email
@@ -64,20 +71,18 @@ class StoriService:
 
         html_content = render_to_string(
             "summary_balance.html",
-            {'total_balance': summary_balance['total_balance'],
-             'transactions_by_month': summary_balance['transactions_by_month'],
-             'average_credit_by_month': summary_balance['average_credit_by_month'],
-             'average_debit_by_month': summary_balance['average_debit_by_month'],
-             })
+            {
+                'total_balance': summary_balance['total_balance'],
+                'month_data': summary_balance['month_data'],
+            })
 
         text_context = strip_tags(html_content)
 
         email = EmailMultiAlternatives(
             subject='Stori - Summary Balance',
             body=text_context,
-            # from_email=settings.EMAIL_HOST_USER,
-            from_email="murdoc.jose.6@gmail.com",
-            to=['murdoc.jose.6@gmail.com'],
+            from_email=settings.EMAIL_HOST_USER,
+            to=[settings.EMAIL_FROM],
         )
         email.attach_alternative(html_content, "text/html")
         email.send()

@@ -5,8 +5,6 @@ from setup.async_task import add_cloudwatch_log
 
 class ApiRenderer(JSONRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-
-        response = {}
         status_code = renderer_context['response'].status_code
         HTTP_MESSAGES = {
             'INFO': 'INFO',
@@ -17,8 +15,6 @@ class ApiRenderer(JSONRenderer):
         }
 
         value_http_message = HTTP_MESSAGES.get(data['http_message'], 'ERROR')
-
-        data = data['data']
 
         response = {
             "status": value_http_message,
@@ -48,4 +44,4 @@ class ApiRenderer(JSONRenderer):
             }
 
         add_cloudwatch_log.delay(response, value_http_message)
-        return super(ApiRenderer, self).render(response, accepted_media_type, renderer_context)
+        return super(ApiRenderer, self).render(data, accepted_media_type, renderer_context)

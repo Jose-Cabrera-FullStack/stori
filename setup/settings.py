@@ -27,14 +27,22 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = 'django-insecure-qq(lp@!9q)m@#6^tip^9552-z(c8qys5b82!iwv0)is$d8t4z='
 
 # Send email settings
-EMAIL_BACKEND = str(
-    env("EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"))
-EMAIL_HOST = str(env("EMAIL_BACKEND", default="your-smtp-server.com"))
-EMAIL_PORT = str(env("EMAIL_BACKEND", default=587))
-EMAIL_USE_TLS = str(env("EMAIL_BACKEND", default=True))
-# EMAIL_HOST_USER = str(env("EMAIL_BACKEND", default="your-email@example.com"))
-# EMAIL_HOST_PASSWORD = str(env("EMAIL_BACKEND", default="your-email-password"))
-# EMAIL_FROM = str(env("EMAIL_BACKEND", default="your-email@example.com"))
+# EMAIL_BACKEND = str(
+#     env("EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"))
+# EMAIL_HOST = str(env("EMAIL_BACKEND", default=""))
+# EMAIL_PORT = env("EMAIL_BACKEND", default=587)
+# EMAIL_USE_TLS = env("EMAIL_BACKEND", default=True)
+# EMAIL_HOST_USER = str(env("EMAIL_BACKEND", default=""))
+# EMAIL_HOST_PASSWORD = str(env("EMAIL_BACKEND", default=""))
+# EMAIL_FROM = str(env("EMAIL_BACKEND", default=""))
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'murdoc.jose.6@gmail.com'
+EMAIL_HOST_PASSWORD = 'ajxaehehnmgelxeq'
+EMAIL_FROM = 'jose.miguel.cabrera.prieto@gmail.com'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
