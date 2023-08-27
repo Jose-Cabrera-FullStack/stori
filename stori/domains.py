@@ -59,5 +59,5 @@ class StoriDomain:
         return transactions_by_month
 
     @staticmethod
-    def _format_date(date: str, from_format_date: str = "%m/%d", to_format_date: str = "%m") -> dict:
+    def _format_date(date: str, from_format_date: str = "%m/%d", to_format_date: str = "%B") -> dict:
         return datetime.datetime.strptime(date, from_format_date).strftime(to_format_date)
