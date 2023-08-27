@@ -23,15 +23,13 @@ def get_resource():
 
 def put_file_in_s3(resource: boto3, data: dict, **kwargs) -> str:
 
-    rut = kwargs.get('rut')
-    json_path = f'./temp/{rut}-upload.json'
+    json_path = f'./temp/upload.json'
     json_string = json.dumps(data)
     json_file = open(json_path, "w")
     json_file.write(json_string)
     json_file.close()
 
-    # It can be modified to upload to a specific folder
-    path_to_upload_s3 = f'{MS_NAME}/{rut}/data.json'
+    path_to_upload_s3 = f'{MS_NAME}/data.json'
 
     resource.meta.client.upload_file(
         json_file.name,
@@ -39,7 +37,6 @@ def put_file_in_s3(resource: boto3, data: dict, **kwargs) -> str:
         path_to_upload_s3
     )
 
-    # La url que se va a guardar en la DB
     url_for_db = f'https://{S3_BUCKET_NAME}.s3.amazonaws.com/{path_to_upload_s3}'
 
     os.remove(json_path)
@@ -49,11 +46,9 @@ def put_file_in_s3(resource: boto3, data: dict, **kwargs) -> str:
 
 def download_file_from_s3(resource: boto3, **kwargs) -> dict:
 
-    rut = kwargs.get('rut')
-    json_download_path = f'./temp/{rut}-downloaded.json'
+    json_download_path = f'./temp/downloaded.json'
 
-    # It can be modified to download from a specific folder
-    path_to_download_s3 = f'{MS_NAME}/{rut}/data.json'
+    path_to_download_s3 = f'{MS_NAME}/data.json'
 
     resource.meta.client.download_file(
         S3_BUCKET_NAME,

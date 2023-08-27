@@ -1,97 +1,49 @@
-# Microservice Base Project DRF Based
-## Instructions to use
-### Installation
-```
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python ./manage.py migrate
-```
-### Run Project (venv activated)
-```
-python manage.py runserver
-```
+# Stori Challenge - Senior Backender Software Engineer README
 
-### Add Django App (venv activated)
-```
-python manage.py startapp stori
-```
+This README provides comprehensive instructions for setting up and understanding the Stori Challenge project, tailored for a senior backender software engineer in Python. The project adheres to the MIT standard for open-source software.
 
-## Docker instructions
-### Run container
-```
-docker build -t django-base-ms .
-docker-compose up --force-recreate --build
-```
+## Installation
 
-##
+### Docker Instructions
 
-## Celery
+To set up the project using Docker, follow these steps:
 
-**NOTE: execute all proccess to correctly work**
+Build the Docker image and run the container:
 
-### 1 - Execute Worker (Engine):
-```
-celery -A setup worker -l info -P eventlet
-```
+   ```bash
+   docker build -t django-base-ms .
+   docker-compose up --force-recreate --build
+   ```
 
-### 2 - Execute Beat (Scheduled Tasks):
-```
-celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
-```
 
-### 3 - Execute Frontend (Engine):
-```
-celery -A setup flower
-```
+**Note**: Execute all processes to ensure correct functionality.
 
-## Amazon S3 implementated
 
-### This template contains files for upload and download files for Amazon S3
+## Amazon S3 Integration
 
-**NOTE: You need create a new Bucket for put the files if you need**
-**NOTE 2: You need edit /setup/infastrucrure/aws_s3.py file for adapt to project**
+The project includes features for uploading and downloading files to/from Amazon S3. Follow these steps to set it up:
 
-1. Complete credentials for Amazon S3 in `.env` file:
-```
+1.- Complete the Amazon S3 credentials in the .env file:
+```bash
 S3_AWS_REGION=
 S3_ACCESS_KEY=
 S3_SECRET_KEY=
 S3_BUCKET_NAME=
 ```
-2. Edit `/setup/infastrucrure/aws_s3.py` file for adapt to project. Methods to edit:
-```
-def put_file_in_s3(**args) -> line 24
-def download_file_from_s3(**args) -> line 42
-```
+
+Edit the /setup/infastrucrure/aws_s3.py file to match your project. Update methods:
+
+put_file_in_s3(**args) (line 24)
+
+download_file_from_s3(**args) (line 42)
 
 ## Project Structure
-The project is organized into several directories and files:
+The project's directory structure is organized as follows:
 
-```
-django-base-ms
-├─ .arm.requirements
-├─ .devcontainer
-│  ├─ devcontainer.json
-│  └─ docker-compose.yml
+```bash
+
+stori-challenge
 ├─ .gitignore
-├─ .vscode
-│  └─ launch.json
-├─ stori
-│  ├─ adapters.py
-│  ├─ admin.py
-│  ├─ apps.py
-│  ├─ async_tasks.py
-│  ├─ domains.py
-│  ├─ migrations
-│  │  └─ __init__.py
-│  ├─ models.py
-│  ├─ serializer.py
-│  ├─ services.py
-│  ├─ tests.py
-│  ├─ urls.py
-│  ├─ views.py
-│  └─ __init__.py
 ├─ docker-compose.yml
 ├─ Dockerfile
 ├─ gunicorn.conf.py
@@ -112,49 +64,84 @@ django-base-ms
 │  ├─ wsgi.py
 │  └─ __init__.py
 ├─ start-container.sh
+├─ stori
+│  ├─ ...
 ├─ supervisord.conf
 └─ temp
-   └─ .ignore
+   ├─ ...
 
 ```
 
-## Architecture Overview
+# Architecture Overview
 
-- `stori`: The core Django app containing the application-specific code.
-  - `adapters.py`: Adapter classes or functions interfacing with external services, APIs or frameworks.
-  - `admin.py`: Django admin configuration for the app's models.
-  - `apps.py`: Configuration for the app itself.
-  - `async_tasks.py`: Functions for handling asynchronous tasks.
-  - `domains.py`: Domain models and business logic.
-  - `migrations`: Django database migrations.
-  - `models.py`: Django model definitions.
-  - `serializer.py`: Serializers for data serialization and deserialization.
-  - `services.py`: Business logic and application services.
-  - `tests.py`: Tests for the app.
-  - `urls.py`: URL routing for the app's views.
-  - `views.py`: Defines views and their behavior.
-#
-- `setup`: Contains setup and configuration files for the project.
-  - `asgi.py`, `wsgi.py`: Django ASGI and WSGI configurations for serving the application.
-  - `async_task.py`: Configuration for handling asynchronous tasks (possibly using Celery).
-  - `infrastructure`: Files related to interacting with external infrastructure (AWS in this case).
-  - `response_formatter.py`: Used for formatting API responses.
-  - `settings.py`: Django settings for the project.
-  - `urls.py`: URL routing for the main project's views.
-  - `views.py`: Main views and their behavior.
+The core stori Django app encompasses various components:
 
-#
-- **Other Files and Directories**:
-  - `.arm.requirements`: requirements only for deploying.
-  - `.devcontainer`: Configuration for Visual Studio Code (VSCode) development container.
-  - `.gitignore`: Specifies files and directories ignored by version control (Git).
-  - `.vscode`: Configuration files for Visual Studio Code (VSCode).
-  - `docker-compose.yml`: Configuration for Docker Compose.
-  - `Dockerfile`: Instructions for building a Docker image of the project.
-  - `gunicorn.conf.py`: Gunicorn (Python WSGI HTTP server) configuration.
-  - `manage.py`: Django management script for various commands.
-  - `readme.md`: This file, providing an overview and instructions for the project.
-  - `requirements.txt`: List of Python dependencies required by the project.
-  - `start-container.sh`: Script to start the Docker container of the application.
-  - `supervisord.conf`: Configuration file for Supervisor, a process control system.
-  - `temp/.ignore`: A file to save S3 files and removed.
+**adapters.py**: Interacts with external services and APIs.
+
+**admin.py**: Configures Django admin for models.
+
+**apps.py**: Manages app-specific configurations.
+
+**async_tasks.py**: Contains asynchronous task functions.
+
+**domains.py**: Holds domain models and business logic.
+
+**migrations**: Manages Django database migrations.
+
+**models.py**: Defines Django models.
+
+**serializer.py**: Manages serialization and deserialization.
+
+**services.py**: Houses business logic and services.
+
+**tests.py**: Contains tests for the app.
+
+**urls.py**: Manages URL routing for app views.
+
+**views.py**: Defines views and their behavior.
+
+### The setup directory includes setup and configuration files:
+
+**asgi.py, wsgi.py**: Django ASGI and WSGI configurations.
+
+**async_task.py**: Configuration for asynchronous tasks, possibly using Celery.
+
+**infrastructure**: Manages interactions with external infrastructure.
+
+**response_formatter.py**: Used for formatting API responses.
+
+**settings.py**: Django project settings.
+
+**urls.py, views.py**: Main project URL routing and views.
+
+### Additional Files and Directories:
+
+**.arm.requirements**: Requirements specifically for deployment.
+
+**.devcontainer**: Configuration for Visual Studio Code (VSCode) 
+development container.
+
+**.gitignore**: Specifies ignored files and directories.
+
+**.vscode**: VSCode configuration files.
+
+**docker-compose.yml**: Docker Compose configuration.
+
+**Dockerfile**: Instructions for building the Docker image.
+
+**gunicorn.conf.py**: Gunicorn (WSGI server) configuration.
+
+**manage.py**: Django management script.
+
+**readme.md**: This file, offering project overview and instructions.
+
+**requirements.txt**: List of Python dependencies.
+
+**start-container.sh**: Script to launch the Docker container.
+
+**supervisord.conf**: Supervisor (process control) configuration.
+
+**temp/.ignore**: File to save S3 files temporarily. For this challenge csv files are saved in this directory.
+
+# License
+This project is licensed under the MIT License. Feel free to use, modify, and distribute it as per the license terms.
