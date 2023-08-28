@@ -65,7 +65,7 @@ This is  going to send an email with the summary balance from the CSV file.
 
 The project includes features for uploading and downloading files to/from Amazon S3. Follow these steps to set it up:
 
-1.- Complete the Amazon S3 credentials in the .env file:
+Complete the Amazon S3 credentials in the .env file:
 ```bash
 S3_AWS_REGION=
 S3_ACCESS_KEY=
@@ -74,11 +74,11 @@ S3_BUCKET_NAME=
 ```
 
 Edit the /setup/infrastructure/aws_s3.py file to match your project. Update methods:
-
+```bash
 put_file_in_s3(**args) (line 24)
 
 download_file_from_s3(**args) (line 42)
-
+```
 ## Project Structure
 The project's directory structure is organized as follows:
 
@@ -110,6 +110,7 @@ stori-challenge
 │  ├─ ...
 ├─ supervisord.conf
 └─ temp
+   ├─ stori_transaction_data.csv
    ├─ ...
 
 ```
@@ -134,7 +135,7 @@ The core stori Django app encompasses various components:
 
 **serializer.py**: Manages serialization and deserialization.
 
-**services.py**: Houses business logic and services.
+**services.py**: Manages business logic and services.
 
 **tests.py**: Contains tests for the app.
 
