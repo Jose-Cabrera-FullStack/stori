@@ -2,14 +2,38 @@ version: "3.9"
 services:
   redis:
     image: redis:latest
+    container_name: redis
     expose:
       - 6379
     volumes:
       - redis:/data
     networks:
-      - stori
+      - stori_networks
+
+  db:
+    image: postgres:latest
+    container_name: db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_NAME=root
+    networks:
+      - stori_networks
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
 
   api:
+    container_name: api
     build:
       context: .
       dockerfile: Dockerfile
@@ -18,16 +42,20 @@ services:
     stdin_open: true
     tty: true
     depends_on:
+      - db
       - redis
     volumes:
       - .:/app
     networks:
-      - stori
+      - stori_networks
+    links:
+      - db:db
     ports:
       - "8020:8010"
       - "5555:5555"
+
 networks:
-  stori:
+  stori_networks:
     driver: bridge
 volumes:
   redis: {}
