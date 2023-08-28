@@ -1,5 +1,3 @@
-# Stori Challenge - Senior Backender Software Engineer README
-
 This README provides comprehensive instructions for setting up and understanding the Stori Challenge project, tailored for a senior backender software engineer in Python. The project adheres to the MIT standard for open-source software.
 
 ## Installation
@@ -11,7 +9,7 @@ To set up the project using Docker, follow these steps:
 Build the Docker image and run the container:
 
    ```bash
-   docker build -t django-base-ms .
+   docker build -t stori-challenge .
    docker-compose up --force-recreate --build
    ```
 
@@ -54,7 +52,14 @@ The project includes the following endpoints:
         ]
     }
 }
+
+
+
 ```
+This is  going to send an email with the summary balance from the CSV file.
+
+![image](https://github.com/Jose-Cabrera-FullStack/stori/assets/40355414/098df365-115d-40ec-8083-e37be1cc49d0)
+
 
 ## Amazon S3 Integration
 
@@ -68,7 +73,7 @@ S3_SECRET_KEY=
 S3_BUCKET_NAME=
 ```
 
-Edit the /setup/infastrucrure/aws_s3.py file to match your project. Update methods:
+Edit the /setup/infrastructure/aws_s3.py file to match your project. Update methods:
 
 put_file_in_s3(**args) (line 24)
 
