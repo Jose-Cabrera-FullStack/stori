@@ -18,4 +18,9 @@ def summary_balance(request):
     else:
         return Response(data={"http_message": "ERROR", "summary_balance": "Invalid email address. Please provide a valid email address."}, status=status.HTTP_400_BAD_REQUEST)
 
-    return Response(data={"http_message": "SUCCESS", "summary_balance": summary_balance}, status=status.HTTP_200_OK)
+    return Response(
+        data={"http_message": "SUCCESS",
+              "message": "Email sent successfully.",
+              "summary_balance": summary_balance},
+        status=status.HTTP_200_OK
+    )

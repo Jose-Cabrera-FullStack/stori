@@ -19,6 +19,43 @@ Build the Docker image and run the container:
 **Note**: Execute all processes to ensure correct functionality.
 
 
+## Endpoints
+
+The project includes the following endpoints:
+### POST http://localhost:8000/api/v1/summary_balance/
+
+**Body:**
+```json
+{
+    "email_recipient": "email.recipient@gmail.com"
+}
+```
+
+**Response:**
+```json
+{
+    "http_message": "SUCCESS",
+    "message": "Email sent successfully.",
+    "summary_balance": {
+        "total_balance": 50.24,
+        "month_data": [
+            [
+                "July",
+                3,
+                50.5,
+                -10.3
+            ],
+            [
+                "August",
+                2,
+                10.0,
+                -25.23
+            ]
+        ]
+    }
+}
+```
+
 ## Amazon S3 Integration
 
 The project includes features for uploading and downloading files to/from Amazon S3. Follow these steps to set it up:

@@ -2,7 +2,6 @@ version: "3.9"
 services:
   redis:
     image: redis:latest
-    container_name: redis
     expose:
       - 6379
     volumes:
@@ -12,7 +11,6 @@ services:
 
   db:
     image: postgres:latest
-    container_name: db
     restart: always
     ports:
       - "5432:5432"
@@ -33,7 +31,6 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
 
   api:
-    container_name: api
     build:
       context: .
       dockerfile: Dockerfile

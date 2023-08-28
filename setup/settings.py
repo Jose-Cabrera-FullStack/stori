@@ -97,7 +97,7 @@ DATABASES = {
         'NAME': str(env('DB_NAME', default='root')),
         'USER': str(env('DB_USER', default='root')),
         'PASSWORD': str(env('DB_PASSWORD', default='root')),
-        'HOST': 'db',
+        'HOST': str(env('DB_HOST', default='host.docker.internal')),
         'PORT': str(env('DB_PORT', default=5432))
     },
 }
